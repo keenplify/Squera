@@ -1,4 +1,4 @@
-# eSKWELA
+# SQUERA (ESKWELA + QUERY)
 
 ## Mission:
 * Create reddit-like system for schools @ philippines (and scale to the moon)
@@ -20,3 +20,33 @@
   * File sharing
   * Events
   * Omegle like chat? (in-school/nearby schools matching algo)
+  * Follow system for users
+  * Reactions for posts
+  
+## Main Collections
+* User
+  * id:uuid
+  * schoolsfollowing:Array
+  * createdAt:date
+* Post
+  * id:uuid
+  * text:string
+  * schoolId:uuid
+  * authorId:uuid
+  * createdAt:date
+  * updatedAt:date
+* Comment
+  * id:uuid
+  * text:string
+  * PostId:uuid
+  * createdAt:date
+  * updatedAt:date
+* School
+  * id:uuid
+  * name:string
+  * description:string
+  * links:Array of links
+* Image
+  * forId:uuid
+  * authorId: uuid
+  * createdAt: date
