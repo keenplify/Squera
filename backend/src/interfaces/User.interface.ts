@@ -1,6 +1,6 @@
-export interface User {
+export interface UserInterface {
     username: string;
     password: string;
-    schoolsFollowing?: Array<string>;
+    schoolsFollowing?: string[];
     email?: string;
 }
