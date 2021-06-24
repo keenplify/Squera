@@ -28,25 +28,49 @@
   * id:uuid
   * schoolsfollowing:Array
   * createdAt:date
+  * role:number ( 0:member 1-4:priveleged(custom) 5:admin )
 * Post
   * id:uuid
   * text:string
   * schoolId:uuid
-  * authorId:uuid
+  * createdBy:uuid
   * createdAt:date
   * updatedAt:date
 * Comment
   * id:uuid
   * text:string
   * PostId:uuid
+  * createdBy:uuid
   * createdAt:date
   * updatedAt:date
 * School
   * id:uuid
   * name:string
   * description:string
-  * links:Array of links
+  * isVerified: boolean
+  * createdBy: uuid
+  * updatedBy: uuid
+  * createdAt:date
+  * updatedAt:date
+* Branch
+  * id:uuid
+  * schoolId: uuid
+  * name:string
+  * address:string
+  * coordinates:Array of float
+  * isVerified: boolean
+  * createdBy: uuid
+  * updatedBy: uuid
+  * createdAt:date
+  * updatedAt:date
 * Image
   * forId:uuid
-  * authorId: uuid
+  * location: string
+  * createdBy: uuid
+  * createdAt: date
+* Links
+  * forId:uuid
+  * uri: string
+  * createdBy: uuid
+  * updatedBy: uuid
   * createdAt: date

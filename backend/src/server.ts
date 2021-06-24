@@ -1,23 +1,48 @@
 import express, {json, urlencoded} from "express";
-import { connect as ConnectMongoose } from "mongoose";
+import { connect as ConnectMongoose, NativeError } from "mongoose";
+import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";
+import { Strategy } from 'passport-http-bearer';
 
-import mongooseConfig from "./config/mongoose.config";
+import mongooseConfig from "./configs/mongoose.config";
 import APIV1 from "./api/v1";
+import User from "./models/User";
+import { UserInterface } from "./interfaces/User.interface";
 
 // CONFIG DOTENV
 dotenv.config();
 
+
 // CREATE SERVER
 const app = express();
+
+// USE BEARER-PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new Strategy(
+    function(token, done) {
+        User.findOne({ token: token }, (err:NativeError, user:UserInterface) => {
+            if (err) { return done(err); }
+            if (!user) { return done(null, false); }
+            return done(null, user, { scope: 'all' });
+        });
+    }
+));
+
+passport.serializeUser((user: UserInterface, done) => {
+    done(undefined, user.id); 
+});
+
+// DECODE JSON BODY
 app.use(json());
 app.use(urlencoded({extended: true}));
 
 // USE CORS
 app.use(cors());
 
-// CONFIG VERSIONING
+// CONFIG VERSIONING/ROUTING
 app.use('/api/v1', APIV1);
 
 // CONNECT TO MONGODB
