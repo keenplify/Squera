@@ -6,7 +6,8 @@ function mongooseAudit(schema, options) {
     schema.add({
         createdBy: {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: options.userModel || "User"
+            ref: options.userModel || "User",
+            required: true
         },
         updatedBy: {
             type: mongoose_1.Schema.Types.ObjectId,

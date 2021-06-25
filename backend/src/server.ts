@@ -1,5 +1,5 @@
 import express, {json, urlencoded} from "express";
-import { connect as ConnectMongoose, NativeError } from "mongoose";
+import { connect as ConnectMongoose, NativeError, mongo } from "mongoose";
 import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -9,6 +9,8 @@ import mongooseConfig from "./configs/mongoose.config";
 import APIV1 from "./api/v1";
 import User from "./models/User";
 import { UserInterface } from "./interfaces/User.interface";
+import { RefChecker } from "./utils/RefChecker";
+import School from "./models/School";
 
 // CONFIG DOTENV
 dotenv.config();

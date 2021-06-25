@@ -25,8 +25,11 @@ router.delete("/:id", Authenticate_1.default, (req, res) => {
     const user = req.user;
     Follow_1.default.findById((_a = req.params) === null || _a === void 0 ? void 0 : _a.id)
         .then((follow) => {
-        if (user.id == follow.followerId)
-            follow.remove()
+        if (user.id !== follow.followerId)
+            res.send(STRINGS_1.UNAUTHORIZED);
+        else
+            follow
+                .remove()
                 .then(() => res.send(STRINGS_1.SUCCESSFUL))
                 .catch((err) => res.send(err.message));
     })
