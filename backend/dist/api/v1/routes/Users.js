@@ -17,6 +17,7 @@ const STRINGS_1 = require("../../../utils/STRINGS");
 const User_1 = __importDefault(require("../../../models/User"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const Authenticate_1 = __importDefault(require("../../../utils/Authenticate"));
+const UserResponse_1 = require("../../../utils/UserResponse");
 const router = express_1.default.Router();
 router.post("/add", (req, res) => {
     var _a, _b, _c, _d;
@@ -27,19 +28,12 @@ router.post("/add", (req, res) => {
         password: (_d = req.body) === null || _d === void 0 ? void 0 : _d.password
     });
     newUser.save()
-        .then(() => {
+        .then((user) => {
+        res.cookie("token", user.token, { httpOnly: true });
+        res.cookie("id", user.id);
         res.send('User added!');
     })
-        .catch((err) => {
-        if (err.message.includes("minimum") && err.message.includes("username"))
-            res.send(STRINGS_1.TOO_SHORT("Username"));
-        if (err.message.includes("minimum") && err.message.includes("password"))
-            res.send(STRINGS_1.TOO_SHORT("Password"));
-        else if (err.message.includes("duplicate"))
-            res.send(STRINGS_1.DUPLICATE_FOUND);
-        else
-            res.send(STRINGS_1.ERROR_OCCURED);
-    });
+        .catch((err) => res.send(err.message));
 });
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -55,10 +49,24 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     !result
         ? res.send(STRINGS_1.UNSUCCESSFUL)
         : res.cookie("token", user.token, { httpOnly: true })
-            && res.send(STRINGS_1.SUCCESSFUL);
+            && res.send(UserResponse_1.UserResponse(user));
 }));
-router.get("/auth", Authenticate_1.default, (req, res) => {
-    res.send(STRINGS_1.SUCCESSFUL);
+router.get("/me", Authenticate_1.default, (req, res) => {
+    const user = req.user;
+    res.json(UserResponse_1.UserResponse(user));
+});
+router.get("/:id", (req, res) => {
+    var _a;
+    //req.params
+    if (!((_a = req.params) === null || _a === void 0 ? void 0 : _a.id))
+        res.send(STRINGS_1.VARS_ARE_REQUIRED(["id"]));
+    User_1.default.findById(req.params.id)
+        .then((user) => {
+        if (!user || user == null)
+            res.send(STRINGS_1.NOT_FOUND("User"));
+        res.json(UserResponse_1.UserResponse(user));
+    })
+        .catch((err) => res.send(err.message));
 });
 exports.default = router;
 //# sourceMappingURL=Users.js.map

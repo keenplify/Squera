@@ -1,6 +1,8 @@
+import { ObjectId } from "mongoose";
+
 export interface Audit {
-  createdBy: string,
+  createdBy: ObjectId,
   createdAt: Date,
-  updatedBy: string,
+  updatedBy: ObjectId,
   updatedAt: Date
 }

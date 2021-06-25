@@ -9,7 +9,7 @@ import { NativeError } from "mongoose";
 const router = express.Router();
 
 router.post("/add", BearerAuthenticate, (req, res) => {
-  const user:UserInterface = req.user as UserInterface
+  const user = req.user as UserInterface
   
   const newSchool = new School({
     name: req.body?.name,

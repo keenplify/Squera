@@ -1,0 +1,1 @@
+{"version":3,"file":"UserResponse.js","sourceRoot":"","sources":["../../src/utils/UserResponse.ts"],"names":[],"mappings":";;;AACA,uCAAuC;AAShC,MAAM,YAAY,GAAG,CAAC,IAAkB,EAAe,EAAE;IAC9D,OAAO;QACL,OAAO,EAAE,oBAAU;QACnB,MAAM,EAAE,IAAI,CAAC,EAAE;QACf,QAAQ,EAAE,IAAI,CAAC,QAAQ;QACvB,KAAK,EAAE,IAAI,CAAC,KAAK;KAClB,CAAA;AACH,CAAC,CAAA;AAPY,QAAA,YAAY,gBAOxB"}

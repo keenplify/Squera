@@ -31,13 +31,16 @@
   * role:number ( 0:member 1-4:priveleged(custom) 5:admin )
 * Post
   * id:uuid
+  * isAnon: boolean
   * text:string
   * schoolId:uuid
+  * branchId:uuid
   * createdBy:uuid
   * createdAt:date
   * updatedAt:date
 * Comment
   * id:uuid
+  * isAnon: boolean
   * text:string
   * PostId:uuid
   * createdBy:uuid

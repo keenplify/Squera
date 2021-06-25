@@ -9,3 +9,4 @@ export const UNSUCCESSFUL = "Unsuccessful"
 export const ERROR_OCCURED = "An error occured"
 export const PARAMETER_INVALID = (params:Array<string>) => `${params.join()} invalid`
 export const VALIDATION_FAILED = "Validation failed"
+export const UNAUTHORIZED = "Unauthorized/no access"

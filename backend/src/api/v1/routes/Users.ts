@@ -1,5 +1,5 @@
 import express from "express";
-import { VARS_ARE_REQUIRED, USER_NOT_FOUND, SUCCESSFUL, UNSUCCESSFUL, ERROR_OCCURED, NOT_FOUND } from "../../../utils/STRINGS";
+import { VARS_ARE_REQUIRED, USER_NOT_FOUND, UNSUCCESSFUL, NOT_FOUND } from "../../../utils/STRINGS";
 import User from "../../../models/User";
 import bcrypt from "bcrypt";
 import { UserInterface } from "../../../interfaces/User.interface";

@@ -11,7 +11,8 @@ export default function mongooseAudit(schema: Schema, options: Options):void {
   schema.add({
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: options.userModel || "User"
+      ref: options.userModel || "User",
+      required: true
     },
     updatedBy: {
       type: Schema.Types.ObjectId,

@@ -10,7 +10,8 @@ const UserSchema = new mongoose_1.Schema({
     username: { type: String, required: true, unique: true, minlength: 3, trim: true },
     password: { type: String, required: true, minlength: 6 },
     email: { type: String, sparse: true },
-    token: { type: String }
+    token: { type: String },
+    role: { type: Number, default: 0 }
 }, {
     timestamps: true
 });
@@ -27,8 +28,6 @@ UserSchema.pre("save", function (next) {
         this.password = hash;
         return next();
     });
-    // FALLBACK
-    return next();
 });
 const User = mongoose_1.model('User', UserSchema);
 exports.default = User;

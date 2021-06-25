@@ -1,9 +1,8 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 import { Audit } from "./Audit.interface";
 
 export interface BranchInterface extends Document<any, any>, Audit {
-    id: string;
-    schoolId: string;
+    schoolId: ObjectId;
     name: string;
     address: string;
     coordinates: {
