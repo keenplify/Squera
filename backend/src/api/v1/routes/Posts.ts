@@ -5,7 +5,6 @@ import BearerAuthenticate from "../../../utils/Authenticate";
 import Post from "../../../models/Post"
 import { PostInterface } from "../../../interfaces/Post.interface";
 import { NOT_FOUND, SUCCESSFUL, UNAUTHORIZED } from "../../../utils/STRINGS";
-import Paginate from "../../../utils/Paginate";
 
 const router = express.Router();
 
@@ -25,7 +24,7 @@ router.post("/add", BearerAuthenticate, (req, res) => {
     message: SUCCESSFUL,
     post
   }))
-  .catch(err => res.send(err.message))
+  .catch((err:any) => res.status(400).send(err.message))
 })
 
 router.get("/:id", (req, res) => {
@@ -58,48 +57,25 @@ router.delete("/:id", BearerAuthenticate, (req, res)=> {
 })
 
 router.get("/user/:id", (req, res) => {
-  const posts = Post.find({createdBy:req.params?.id})
+  const page = parseInt(req.query?.pageNumber as string) || 1
+  const limit = parseInt(req.query?.paginate as string) || 10
+  const posts = Post.paginate({
+    query: {createdBy:req.params?.id},
+    page,
+    limit,
+    sort: 'desc',
+    populate: 'User'
+  })
 
-  Paginate(req, posts)
-
-  posts.then((Posts:Array<PostInterface>) => {
+  posts.then(({ docs, hasMore }) => {
     res.json({
       message: SUCCESSFUL,
-      count: Posts.length,
-      list: req.body?.withList && Posts
+      count: limit,
+      hasMore,
+      list: req.query?.withList && docs,
     })
   })
-  .catch((err)=>res.send(err.message))
-})
-
-router.get("/school/:id", (req, res) => {
-  const posts = Post.find({schoolId:req.params?.id})
-
-  Paginate(req, posts)
-
-  posts.then((Posts:Array<PostInterface>) => {
-    res.json({
-      message: SUCCESSFUL,
-      count: Posts.length,
-      list: req.body?.withList && Posts
-    })
-  })
-  .catch((err)=>res.send(err.message))
-})
-
-router.get("/branch/:id", (req, res) => {
-  const posts = Post.find({branchId:req.params?.id})
-
-  Paginate(req, posts)
-
-  posts.then((Posts:Array<PostInterface>) => {
-    res.json({
-      message: SUCCESSFUL,
-      count: Posts.length,
-      list: req.body?.withList && Posts
-    })
-  })
-  .catch((err)=>res.send(err.message))
+  .catch((err)=>res.status(400).send(err.message))
 })
 
 export default router

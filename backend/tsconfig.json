@@ -6,14 +6,8 @@
         "noImplicitAny": true,
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
+        "outDir": "dist"
     },
-    "include": [
-        "src/**/*"
-    ]
+    "include": ["./src/**/*"],
+    "exclude": ["./node_modules"]
 }

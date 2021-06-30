@@ -5,6 +5,7 @@ import BearerAuthenticate from "../../../utils/Authenticate";
 import { BranchInterface } from "../../../interfaces/Branch.interface";
 import { NOT_FOUND, SUCCESSFUL, VARS_ARE_REQUIRED } from "../../../utils/STRINGS";
 import { NativeError } from "mongoose";
+import Paginate from "../../../utils/Paginate";
 const router = express.Router();
 
 router.post("/add", BearerAuthenticate, (req, res) => {
@@ -35,6 +36,36 @@ router.get("/:id", (req, res) => {
     res.json(branch)
   })
   .catch((err:NativeError) => res.send(err.message))
+})
+
+router.get("/", (req,res) => {
+  const branch = Branch.find()
+
+  Paginate(req, branch)
+
+  branch.then((Branch:Array<BranchInterface>) => {
+    res.json({
+      message: SUCCESSFUL,
+      count: Branch.length,
+      list: req.body?.withList && Branch
+    })
+  })
+})
+
+router.get("/school/:id", (req,res) => {
+  if (!req.params?.id) res.send(VARS_ARE_REQUIRED(["id"]))
+
+  const branch = Branch.find({schoolId: req.params.id})
+
+  Paginate(req, branch)
+
+  branch.then((Branch:Array<BranchInterface>) => {
+    res.json({
+      message: SUCCESSFUL,
+      count: Branch.length,
+      list: req.body?.withList && Branch
+    })
+  })
 })
 
 export default router;

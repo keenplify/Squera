@@ -1,0 +1,1 @@
+export const MainGradientColor = (intOpacity:number = 100) => `linear-gradient(109.83deg, #51C67F${intOpacity.toString(16)} 0%, #001856${intOpacity.toString(16)} 100%)`

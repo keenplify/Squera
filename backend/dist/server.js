@@ -31,6 +31,8 @@ const passport_http_bearer_1 = require("passport-http-bearer");
 const mongoose_config_1 = __importDefault(require("./configs/mongoose.config"));
 const v1_1 = __importDefault(require("./api/v1"));
 const User_1 = __importDefault(require("./models/User"));
+const swagger_ui_express_1 = require("swagger-ui-express");
+const swagger_1 = require("./configs/swagger");
 // CONFIG DOTENV
 dotenv_1.default.config();
 // CREATE SERVER
@@ -67,4 +69,6 @@ mongoose_1.connect(process.env.MONGO_URI, mongoose_config_1.default, (err) => er
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Server started at http://localhost:${process.env.EXPRESS_PORT}/api/v1`);
 });
+// DOCUMENTATION
+app.use("/api-docs", swagger_ui_express_1.serve, swagger_ui_express_1.setup(swagger_1.swaggerDocument, { explorer: true }));
 //# sourceMappingURL=server.js.map

@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const Authenticate_1 = __importDefault(require("../../../utils/Authenticate"));
 const School_1 = __importDefault(require("../../../models/School"));
 const STRINGS_1 = require("../../../utils/STRINGS");
+const Paginate_1 = __importDefault(require("../../../utils/Paginate"));
 const router = express_1.default.Router();
 router.post("/add", Authenticate_1.default, (req, res) => {
     var _a, _b;
@@ -35,6 +36,18 @@ router.get("/:id", (req, res) => {
         res.json(school);
     })
         .catch((err) => res.send(err.message));
+});
+router.get("/", (req, res) => {
+    const schools = School_1.default.find();
+    Paginate_1.default(req, schools);
+    schools.then((Schools) => {
+        var _a;
+        res.json({
+            message: STRINGS_1.SUCCESSFUL,
+            count: Schools.length,
+            list: ((_a = req.body) === null || _a === void 0 ? void 0 : _a.withList) && Schools
+        });
+    });
 });
 exports.default = router;
 //# sourceMappingURL=Schools.js.map

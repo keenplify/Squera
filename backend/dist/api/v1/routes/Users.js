@@ -29,27 +29,24 @@ router.post("/add", (req, res) => {
     });
     newUser.save()
         .then((user) => {
-        res.cookie("token", user.token, { httpOnly: true });
-        res.cookie("id", user.id);
-        res.send('User added!');
+        res.send(UserResponse_1.UserResponse(user));
     })
         .catch((err) => res.send(err.message));
 });
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     if (!((_a = req.body) === null || _a === void 0 ? void 0 : _a.username) || !req.body)
-        res.send(STRINGS_1.VARS_ARE_REQUIRED(["username", "password"]));
+        res.status(400).send(STRINGS_1.VARS_ARE_REQUIRED(["username", "password"]));
     const user = yield User_1.default.findOne({ $or: [
             { username: req.body.username },
             { email: req.body.username }
         ] });
     if (!user || user == null)
-        res.send(STRINGS_1.USER_NOT_FOUND);
+        res.status(500).send(STRINGS_1.USER_NOT_FOUND);
     const result = yield bcrypt_1.default.compare(req.body.password, user.password);
     !result
-        ? res.send(STRINGS_1.UNSUCCESSFUL)
-        : res.cookie("token", user.token, { httpOnly: true })
-            && res.send(UserResponse_1.UserResponse(user));
+        ? res.status(400).send(STRINGS_1.UNSUCCESSFUL)
+        : res.send(UserResponse_1.UserResponse(user));
 }));
 router.get("/me", Authenticate_1.default, (req, res) => {
     const user = req.user;

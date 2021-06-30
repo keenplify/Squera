@@ -9,8 +9,8 @@ import mongooseConfig from "./configs/mongoose.config";
 import APIV1 from "./api/v1";
 import User from "./models/User";
 import { UserInterface } from "./interfaces/User.interface";
-import { RefChecker } from "./utils/RefChecker";
-import School from "./models/School";
+import { serve, setup } from "swagger-ui-express";
+import { swaggerDocument } from "./configs/swagger";
 
 // CONFIG DOTENV
 dotenv.config();
@@ -60,3 +60,6 @@ ConnectMongoose(
 app.listen( process.env.EXPRESS_PORT, () => {
     console.log( `Server started at http://localhost:${ process.env.EXPRESS_PORT }/api/v1` );
 } );
+
+// DOCUMENTATION
+app.use("/api-docs", serve, setup(swaggerDocument, {explorer: true}))

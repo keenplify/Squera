@@ -19,35 +19,31 @@ router.post("/add", (req, res) => {
 
   newUser.save()
   .then((user:UserInterface) => {
-    res.cookie("token", user.token, {httpOnly: true})
-    res.cookie("id", user.id)
-    res.send('User added!')
+    res.send(UserResponse(user))
   })
   .catch((err:NativeError) => res.send(err.message))
 })
 
 router.post("/login", async (req, res) => {
-  if (!req.body?.username || !req.body) res.send(VARS_ARE_REQUIRED(["username", "password"]));
+  if (!req.body?.username || !req.body) res.status(400).send(VARS_ARE_REQUIRED(["username", "password"]));
 
   const user = await User.findOne({$or: [
     {username: req.body.username},
     {email: req.body.username}
   ]}) as UserInterface
 
-  if (!user || user == null) res.send(USER_NOT_FOUND);
+  if (!user || user == null) res.status(500).send(USER_NOT_FOUND);
 
   const result = await bcrypt.compare(req.body.password, user.password)
 
   ! result 
-  ? res.send(UNSUCCESSFUL)
-  :   res.cookie("token", user.token, {httpOnly: true}) 
-  &&  res.send(UserResponse(user));
+  ? res.status(400).send(UNSUCCESSFUL)
+  : res.send(UserResponse(user));
   
 })
 
 router.get("/me", BearerAuthenticate, (req,res)=> {
   const user:UserInterface = req.user as UserInterface
-
   res.json(UserResponse(user))
 })
 
