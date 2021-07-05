@@ -62,14 +62,16 @@ router.get("/user/:id", (req, res) => {
         query: { createdBy: (_c = req.params) === null || _c === void 0 ? void 0 : _c.id },
         page,
         limit,
-        sort: 'createdAt'
+        sort: 'desc',
+        populate: 'User'
     });
-    posts.then((Posts) => {
+    posts.then(({ docs, hasMore }) => {
         var _a;
         res.json({
             message: STRINGS_1.SUCCESSFUL,
             count: limit,
-            list: ((_a = req.query) === null || _a === void 0 ? void 0 : _a.withList) && Posts
+            hasMore,
+            list: ((_a = req.query) === null || _a === void 0 ? void 0 : _a.withList) && docs,
         });
     })
         .catch((err) => res.status(400).send(err.message));

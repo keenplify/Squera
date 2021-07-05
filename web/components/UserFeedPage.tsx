@@ -2,13 +2,10 @@ import { Flex, Spacer } from "@chakra-ui/react"
 import { Feed } from "./Feed"
 import ProjectStatusAlert from "./ProjectStatusAlert"
 import CreatePost from "./CreatePost"
-import { useContext, useState } from "react"
-import { useEffect } from "react"
-import axios from "axios"
-import { rootServer } from "../utils/server"
-import { UserResponse } from "../utils/UserResponse"
-import UserContext from "../utils/user-context"
 import { Post, PostInterface } from "./Post"
+import {UserFeedLeftStack} from './UserFeedLeftStack'
+import { useState } from "react"
+
 
 interface UserFeedPageProps {
   feedList: PostInterface[]
@@ -16,21 +13,33 @@ interface UserFeedPageProps {
 }
 
 export const UserFeedPage = ({feedList, feedAuthorsResponse}: UserFeedPageProps) => {
-  const userResponse:UserResponse = useContext(UserContext)
+  const [curatedList, setCuratedList] = useState(feedList)
+  
+  const handleCreatePostSuccess = (post:PostInterface) => {
+    setCuratedList([post, ...curatedList])
+  }
+
+  const handleDeleteSuccess = (id:string) => {
+    const filtered = curatedList.filter((post:PostInterface) => post._id!==id)
+    setCuratedList(filtered)
+  }
 
   return (
     <Flex alignContent='center' flexGrow={1} direction={{base:'column', md:'row'}}>
-      <Flex grow={{base:'initial', lg:1}} display={{base:'none', lg:'initial'}} w={'20em'}>
-        Left
+      <Flex  grow={{base:'initial', lg:1}} display={{base:'none', lg:'initial'}} w={'20em'}/>
+      <Flex grow={{base:'initial', lg:1}} display={{base:'none', lg:'initial'}} w={'20em'} position='fixed'>
+        <UserFeedLeftStack />
       </Flex>
 
       <Spacer/>
 
-      <Flex w={{base: '100%', lg:'48em'}}  direction='column'>
+      <Flex direction='column'>
         <Feed children={<ProjectStatusAlert/>}/>
-        <Feed children={<CreatePost/>}/>
+        <Feed children={<CreatePost handleSuccess={handleCreatePostSuccess}/>}/>
         {
-          feedList?.map((post, index) => <Feed key={index} children={<Post post={post} author={feedAuthorsResponse[post.createdBy]}/>} />)
+          curatedList?.map((post, index) => {
+            return <Feed key={index} children={<Post handleDeleteSuccess={handleDeleteSuccess} post={post} author={feedAuthorsResponse[post.createdBy]}/>} />
+          })
         }
       </Flex>
 

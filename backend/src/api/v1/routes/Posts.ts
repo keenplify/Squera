@@ -44,10 +44,9 @@ router.get("/:id", (req, res) => {
 
 router.delete("/:id", BearerAuthenticate, (req, res)=> {
   const user = req.user as UserInterface
-  
   Post.findById(req.params?.id)
   .then((post:PostInterface) => {
-    if ( user.id !== post.createdBy ) res.send(UNAUTHORIZED)
+    if ( user.id !== post.createdBy.toString() ) res.send(UNAUTHORIZED)
     else post
       .remove()
       .then(()=>res.send(SUCCESSFUL))
@@ -63,8 +62,29 @@ router.get("/user/:id", (req, res) => {
     query: {createdBy:req.params?.id},
     page,
     limit,
-    sort: 'desc',
-    populate: 'User'
+    sort: {createdAt: -1}
+  })
+
+  posts.then(({ docs, hasMore }) => {
+    res.json({
+      message: SUCCESSFUL,
+      count: limit,
+      hasMore,
+      list: req.query?.withList && docs,
+    })
+  })
+  .catch((err)=>res.status(400).send(err.message))
+})
+
+router.get("/curated/:id", BearerAuthenticate, (req, res) => {
+  console.log(req.user)
+  const page = parseInt(req.query?.pageNumber as string) || 1
+  const limit = parseInt(req.query?.paginate as string) || 10
+  const posts = Post.paginate({
+    query: {createdBy:req.params?.id},
+    page,
+    limit,
+    sort: {createdAt: -1}
   })
 
   posts.then(({ docs, hasMore }) => {

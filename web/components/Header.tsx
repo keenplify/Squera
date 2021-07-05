@@ -59,7 +59,7 @@ const Header = () => {
                 (userResponse.username) ? 
                 <>
                   <Flex fontWeight='medium' suppressHydrationWarning>
-                    Welcome to SQUERA
+                    {userResponse.userId}
                   </Flex>
                   <Flex color='GrayText' suppressHydrationWarning>
                   @{userResponse?.username}

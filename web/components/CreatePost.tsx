@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/layout"
 import { Alert, AlertDescription, AlertIcon, Avatar, Button, useDisclosure } from "@chakra-ui/react"
-import { useContext } from "react"
+import { Dispatch, DispatchWithoutAction, useContext } from "react"
 import UserContext from "../utils/user-context"
 import { UserResponse } from "../utils/UserResponse"
 import { Formik, Form, FormikHelpers } from "formik"
@@ -12,9 +12,10 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { useRef } from "react"
 import axios from "axios"
 import { rootServer } from "../utils/server"
+import { PostInterface } from "./Post"
 
 interface CreatePostProps {
-
+  handleSuccess: (post:PostInterface) => void
 }
 
 interface PostValues {
@@ -22,20 +23,20 @@ interface PostValues {
   isAnon: boolean
 }
 
-export default function CreatePost(props:CreatePostProps) {
+export default function CreatePost({handleSuccess}:CreatePostProps) {
   const userResponse:UserResponse = useContext(UserContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const placeholder = `What's on your mind, ${userResponse.username}?`
   const initialRef=useRef<HTMLTextAreaElement>(null)
 
   async function onSubmit(values:PostValues, {setSubmitting, setStatus}:FormikHelpers<any>) {
-    console.log(values)
     try {
       const result = await axios.post(rootServer+'/posts/add', values, {
         headers: {
           Authorization: `Bearer ${userResponse.token}`
         }
       })
+      handleSuccess(result.data.post)
     } catch(err) {
       setStatus({
         err: err.response.data,
@@ -54,7 +55,7 @@ export default function CreatePost(props:CreatePostProps) {
         <Flex>
           <Avatar name={userResponse.username} />
         </Flex>
-        <Button bg='blackAlpha.300' w='100%' h='100%' padding={1} borderRadius='2xl' mx={3}  justifyContent="flex-start" onClick={onOpen}>
+        <Button bg='blackAlpha.300' w='100%' h='48px' padding={1} borderRadius='2xl' mx={3}  justifyContent="flex-start" onClick={onOpen}>
           <Text fontSize='lg' px={4} fontWeight='medium' color='blackAlpha.500' >{placeholder}</Text>
         </Button>
       </Flex>

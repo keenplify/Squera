@@ -11,6 +11,7 @@ import cookie from "cookie";
 import axios from "axios";
 import { rootServer } from "../utils/server";
 import { PostInterface } from "../components/Post";
+import { sanitizeString } from "../utils/sanitize";
 
 interface HomeProps {
   userResponse: UserResponse
@@ -53,17 +54,21 @@ export async function getServerSideProps(context:any) {
 
   //FEED - POST RIGHT NOW
   
-  if (token) {
+  if (userResponse?.token) {
 
-    //GET POSTS FROM ME
-    feedList = await axios.get(rootServer+'/posts/user/'+userResponse.userId, {
+    //GET POSTS FROM ME (WILL CHANGE LATER)
+    feedList = await axios.get(rootServer+'/posts/curated/'+userResponse.userId, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${sanitizeString(token)}`
       },
       params: {
         withList: true
       }
-    }).then(res => res.data.list).catch(err => []);
+    }).then(res => {
+      return res.data.list
+    }).catch(err => {
+      console.log('Error!', err)
+    });
 
     feedList.map((feed) => {
       fARPromises[feed.createdBy] = axios.get(rootServer+'/users/'+feed.createdBy).then((res)=>res.data)
