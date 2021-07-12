@@ -44,7 +44,7 @@ router.delete("/:id", Authenticate_1.default, (req, res) => {
     const user = req.user;
     Post_1.default.findById((_a = req.params) === null || _a === void 0 ? void 0 : _a.id)
         .then((post) => {
-        if (user.id !== post.createdBy)
+        if (user.id !== post.createdBy.toString())
             res.send(STRINGS_1.UNAUTHORIZED);
         else
             post
@@ -62,8 +62,7 @@ router.get("/user/:id", (req, res) => {
         query: { createdBy: (_c = req.params) === null || _c === void 0 ? void 0 : _c.id },
         page,
         limit,
-        sort: 'desc',
-        populate: 'User'
+        sort: { createdAt: -1 }
     });
     posts.then(({ docs, hasMore }) => {
         var _a;
@@ -72,6 +71,28 @@ router.get("/user/:id", (req, res) => {
             count: limit,
             hasMore,
             list: ((_a = req.query) === null || _a === void 0 ? void 0 : _a.withList) && docs,
+        });
+    })
+        .catch((err) => res.status(400).send(err.message));
+});
+router.get("/curated/:userId", Authenticate_1.default, (req, res) => {
+    var _a, _b, _c;
+    const page = parseInt((_a = req.query) === null || _a === void 0 ? void 0 : _a.pageNumber) || 1;
+    const limit = parseInt((_b = req.query) === null || _b === void 0 ? void 0 : _b.paginate) || 10;
+    const withList = ((((_c = req.query) === null || _c === void 0 ? void 0 : _c.withList) === 'true') ? true : false);
+    const posts = Post_1.default.paginate({
+        // @ts-ignore:
+        query: { createdBy: req.user._id },
+        page,
+        limit,
+        sort: { createdAt: -1 }
+    });
+    posts.then(({ docs, hasMore }) => {
+        res.json({
+            message: STRINGS_1.SUCCESSFUL,
+            count: limit,
+            hasMore,
+            list: withList && docs,
         });
     })
         .catch((err) => res.status(400).send(err.message));

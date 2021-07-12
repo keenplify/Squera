@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/layout"
-import { Alert, AlertDescription, AlertIcon, Avatar, Button, useDisclosure } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, Avatar, Button, useColorMode, useDisclosure } from "@chakra-ui/react"
 import { Dispatch, DispatchWithoutAction, useContext } from "react"
 import UserContext from "../utils/user-context"
 import { UserResponse } from "../utils/UserResponse"
@@ -28,7 +28,8 @@ export default function CreatePost({handleSuccess}:CreatePostProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const placeholder = `What's on your mind, ${userResponse.username}?`
   const initialRef=useRef<HTMLTextAreaElement>(null)
-
+  const { colorMode } = useColorMode()
+  
   async function onSubmit(values:PostValues, {setSubmitting, setStatus}:FormikHelpers<any>) {
     try {
       const result = await axios.post(rootServer+'/posts/add', values, {
@@ -56,7 +57,7 @@ export default function CreatePost({handleSuccess}:CreatePostProps) {
           <Avatar name={userResponse.username} />
         </Flex>
         <Button bg='blackAlpha.300' w='100%' h='48px' padding={1} borderRadius='2xl' mx={3}  justifyContent="flex-start" onClick={onOpen}>
-          <Text fontSize='lg' px={4} fontWeight='medium' color='blackAlpha.500' >{placeholder}</Text>
+          <Text fontSize='lg' px={4} fontWeight='medium' color={colorMode === 'light' ? 'blackAlpha.500':'whiteAlpha.700'} >{placeholder}</Text>
         </Button>
       </Flex>
 

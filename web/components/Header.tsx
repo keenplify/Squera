@@ -1,4 +1,4 @@
-import { Flex, Box, Popover, PopoverContent, PopoverTrigger, PopoverBody } from "@chakra-ui/react";
+import { Flex, Box, Popover, PopoverContent, PopoverTrigger, PopoverBody, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Avatar } from "@chakra-ui/react"
 import { FiHome, FiMessageCircle, FiSettings, FiLogOut, FiBox } from 'react-icons/fi'
@@ -7,8 +7,10 @@ import UserContext from "../utils/user-context";
 import { UserResponse } from "../utils/UserResponse";
 import DefaultButton from './DefaultButton'
 import { Fragment } from "react"
+import { VscColorMode } from 'react-icons/vsc'
 
 const Header = () => {
+  const { colorMode, toggleColorMode } = useColorMode()
 
   const logout = () => {
     const Cookie = new Cookies();
@@ -23,7 +25,7 @@ const Header = () => {
       position={'fixed'}
       width={'100%'}
       height={'72px'}
-      backgroundColor={'white'}
+      backgroundColor={colorMode === 'light' ? 'white':'blackAlpha.500'}
       borderBottom={'1px'}
       borderColor={'gray.500'}
       boxShadow={'lg'}
@@ -44,6 +46,7 @@ const Header = () => {
                     <DefaultButton icon={<FiHome/>} >Home</DefaultButton>
                     <DefaultButton icon={<FiMessageCircle/>}>Messages</DefaultButton>
                     <DefaultButton icon={<FiSettings/>}>Account & Settings</DefaultButton>
+                    <DefaultButton icon={<VscColorMode />} onClick={toggleColorMode}>Toggle Color Mode</DefaultButton>
                     <DefaultButton icon={<FiLogOut/>} onClick={logout}>Logout</DefaultButton>
                 </PopoverBody>
               </PopoverContent>

@@ -5,6 +5,7 @@ import CreatePost from "./CreatePost"
 import { Post, PostInterface } from "./Post"
 import {UserFeedLeftStack} from './UserFeedLeftStack'
 import { useState } from "react"
+import { FlexFeed } from "./FlexFeed"
 
 
 interface UserFeedPageProps {
@@ -25,30 +26,28 @@ export const UserFeedPage = ({feedList, feedAuthorsResponse}: UserFeedPageProps)
   }
 
   return (
-    <Flex alignContent='center' flexGrow={1} direction={{base:'column', md:'row'}}>
-      <Flex  grow={{base:'initial', lg:1}} display={{base:'none', lg:'initial'}} w={'20em'}/>
-      <Flex grow={{base:'initial', lg:1}} display={{base:'none', lg:'initial'}} w={'20em'} position='fixed'>
+    <FlexFeed.Container>
+
+      <FlexFeed.Left>
         <UserFeedLeftStack />
-      </Flex>
+      </FlexFeed.Left>
 
-      <Spacer/>
-
-      <Flex direction='column'>
+      <FlexFeed.Middle>
         <Feed children={<ProjectStatusAlert/>}/>
         <Feed children={<CreatePost handleSuccess={handleCreatePostSuccess}/>}/>
         {
           curatedList?.map((post, index) => {
-            return <Feed key={index} children={<Post handleDeleteSuccess={handleDeleteSuccess} post={post} author={feedAuthorsResponse[post.createdBy]}/>} />
+            return  <Feed key={index}>
+                      <Post handleDeleteSuccess={handleDeleteSuccess} post={post} author={feedAuthorsResponse[post.createdBy]}/>
+                    </Feed>
           })
         }
-      </Flex>
+      </FlexFeed.Middle>
 
-      <Spacer/>
-      
-      <Flex grow={{base:'initial', lg:1}}  w={{base:'100%', md:'20em'}}  display={{base:'none', md:'initial'}}>
+      <FlexFeed.Right>
         Right
-      </Flex>
-      
-    </Flex>
+      </FlexFeed.Right>
+
+    </FlexFeed.Container>
   )
 }

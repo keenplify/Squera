@@ -1,4 +1,4 @@
-import { Box, Flex, Avatar, Spinner, Spacer, Button } from "@chakra-ui/react"
+import { Box, Flex, Avatar, Spinner, Spacer, Button, useColorMode } from "@chakra-ui/react"
 import axios from "axios";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -44,7 +44,7 @@ export const Post = ({post, author, handleDeleteSuccess}:PostProps) => {
   const userResponse:UserResponse = useContext(UserContext)
   const createdAt = new Date(post.createdAt)
   const parsedDate = `${months[createdAt.getMonth()]} ${createdAt.getDay()}, ${createdAt.getFullYear()}`
-
+  const { colorMode } = useColorMode()
 
   useEffect(()=> {
     if (!user) axios.get(rootServer+'/users/'+createdBy)
@@ -62,7 +62,7 @@ export const Post = ({post, author, handleDeleteSuccess}:PostProps) => {
             <Avatar name={isAnon ? 'Anonymous' : user.username} />
             <Flex direction='column' ml={3} justify='center'>
               <Flex fontWeight='semibold'>{isAnon ? `Anonymous ${userResponse.userId === post.createdBy && '(You)'}` : user.userId}</Flex>
-              <Flex color='blackAlpha.700' fontSize='smaller'>
+              <Flex color={colorMode === 'light' ? 'blackAlpha.700':'whiteAlpha.700'} fontSize='smaller'>
                 <b>{!isAnon && `@${user.username}`}</b> | 
                 <time dateTime={post.createdAt}>{parsedDate}</time>
               </Flex>

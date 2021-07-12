@@ -34,7 +34,7 @@ passport.use(new Strategy(
 ));
 
 passport.serializeUser((user: UserInterface, done) => {
-    done(undefined, user.id); 
+    done(undefined); 
 });
 
 // DECODE JSON BODY

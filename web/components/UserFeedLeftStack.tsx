@@ -1,11 +1,11 @@
 import DefaultButton from './DefaultButton'
 import {IoSchool} from 'react-icons/io5'
 import Link from "next/link";
-import { Stack } from "@chakra-ui/react"
 import { FiUsers, FiMessageSquare } from 'react-icons/fi'
+import { Flex } from '@chakra-ui/react';
 export const UserFeedLeftStack = () => {
   return (
-    <Stack spacing={0} padding='1em'>
+    <Flex grow={1} direction='column' padding='1em'>
       <Link href='/schools'>
         <a>
           <DefaultButton 
@@ -36,6 +36,6 @@ export const UserFeedLeftStack = () => {
           </DefaultButton>
         </a>
       </Link>
-    </Stack>
+    </Flex>
   )
 }

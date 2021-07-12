@@ -5,6 +5,7 @@ import { FollowInterface } from '../interfaces/Follow.interface';
 import User from './User';
 import School from './School';
 import Branch from './Branch';
+import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 
 
 const FollowSchema = new Schema<FollowInterface>({
@@ -26,6 +27,8 @@ FollowSchema.index({
   unique: true
 })
 
-const Follow = model('Follow', FollowSchema);
+FollowSchema.plugin(mongoosePagination);
+
+const Follow:Pagination<FollowInterface> = model<FollowInterface, Pagination<FollowInterface>>('Follow', FollowSchema);
 
 export default Follow;

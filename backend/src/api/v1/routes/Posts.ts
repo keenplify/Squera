@@ -76,12 +76,13 @@ router.get("/user/:id", (req, res) => {
   .catch((err)=>res.status(400).send(err.message))
 })
 
-router.get("/curated/:id", BearerAuthenticate, (req, res) => {
-  console.log(req.user)
+router.get("/curated/:userId", BearerAuthenticate, (req, res) => {
   const page = parseInt(req.query?.pageNumber as string) || 1
   const limit = parseInt(req.query?.paginate as string) || 10
+  const withList:boolean = ((req.query?.withList === 'true') ? true:false)
   const posts = Post.paginate({
-    query: {createdBy:req.params?.id},
+    // @ts-ignore:
+    query: {createdBy:req.user._id},
     page,
     limit,
     sort: {createdAt: -1}
@@ -92,7 +93,7 @@ router.get("/curated/:id", BearerAuthenticate, (req, res) => {
       message: SUCCESSFUL,
       count: limit,
       hasMore,
-      list: req.query?.withList && docs,
+      list: withList && docs,
     })
   })
   .catch((err)=>res.status(400).send(err.message))

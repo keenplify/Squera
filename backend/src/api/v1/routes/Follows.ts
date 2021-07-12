@@ -37,34 +37,42 @@ router.delete("/:id", BearerAuthenticate, (req, res)=> {
   .catch((err) => res.send(err.message))
 })
 
-router.get("/following/:id", (req,res) => {
-  const follow = Follow.find({followerId:req.params?.id})
+router.get("/following/:id", (req, res) => {
+  const page = parseInt(req.query?.pageNumber as string) || 1
+  const limit = parseInt(req.query?.paginate as string) || 10
+  const withList:boolean = ((req.query?.withList === 'true') ? true:false)
+  const posts = Follow.paginate({
+    // @ts-ignore:
+    query: {followerId:req.params.id},
+    page,
+    limit,
+    sort: {createdAt: -1}
+  })
 
-  Paginate(req, follow)
-
-  follow.then((Follows:Array<FollowInterface>)=> {
+  posts.then(({ docs, hasMore }) => {
     res.json({
       message: SUCCESSFUL,
-      count: Follows.length,
-      list: req.body?.withList && Follows
+      count: limit,
+      hasMore,
+      list: withList && docs,
     })
   })
-  .catch((err:NativeError)=>res.send(err.message))
+  .catch((err)=>res.status(400).send(err.message))
 })
 
 router.get("/followers/:id", (req,res) => {
-  const follow = Follow.find({followingId:req.params?.id})
+  // const follow = Follow.find({followingId:req.params?.id})
 
-  Paginate(req, follow)
+  // Paginate(req, follow)
 
-  follow.then((Follows:Array<FollowInterface>)=> {
-    res.json({
-      message: SUCCESSFUL,
-      count: Follows.length,
-      list: req.body?.withList && Follows
-    })
-  })
-  .catch((err:NativeError)=>res.send(err.message))
+  // follow.then((Follows:Array<FollowInterface>)=> {
+  //   res.json({
+  //     message: SUCCESSFUL,
+  //     count: Follows.length,
+  //     list: req.body?.withList && Follows
+  //   })
+  // })
+  // .catch((err:NativeError)=>res.send(err.message))
 })
 
 export default router;

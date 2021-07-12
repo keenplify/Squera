@@ -62,7 +62,7 @@ export async function getServerSideProps(context:any) {
         Authorization: `Bearer ${sanitizeString(token)}`
       },
       params: {
-        withList: true
+        withList: 'true'
       }
     }).then(res => {
       return res.data.list
@@ -70,7 +70,7 @@ export async function getServerSideProps(context:any) {
       console.log('Error!', err)
     });
 
-    feedList.map((feed) => {
+    feedList?.map((feed) => {
       fARPromises[feed.createdBy] = axios.get(rootServer+'/users/'+feed.createdBy).then((res)=>res.data)
     })
 

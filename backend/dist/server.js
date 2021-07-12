@@ -52,7 +52,7 @@ passport_1.default.use(new passport_http_bearer_1.Strategy(function (token, done
     });
 }));
 passport_1.default.serializeUser((user, done) => {
-    done(undefined, user.id);
+    done(undefined);
 });
 // DECODE JSON BODY
 app.use(express_1.json());
