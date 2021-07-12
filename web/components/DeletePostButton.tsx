@@ -51,7 +51,7 @@ export const DeletePostButton = ({post, parsedDate, handleSuccess}:DeletePostBut
 
   return (
     <Fragment>
-      <DefaultButton colorScheme="red" w='100%' onClick={onOpen} icon={<FiTrash2/>}>Delete Post</DefaultButton>
+      <DefaultButton bgColor='red.500' _hover={{bg:'red.600'}} color='white' w='100%' onClick={onOpen} icon={<FiTrash2/>}>Delete Post</DefaultButton>
       <Modal blockScrollOnMount={true} isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay/>
         <ModalContent>
@@ -66,7 +66,7 @@ export const DeletePostButton = ({post, parsedDate, handleSuccess}:DeletePostBut
           <Button variant='ghost' mr={3} onClick={onClose} isDisabled={loading}>
             Close
           </Button>
-          <Button bgColor='red.400' color='white' _hover={{bg:'red.600'}} isDisabled={loading} isLoading={loading} onClick={deletePost}>Delete</Button>
+          <Button bgColor='red.500' color='white' _hover={{bg:'red.600'}} isDisabled={loading} isLoading={loading} onClick={deletePost}>Delete</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

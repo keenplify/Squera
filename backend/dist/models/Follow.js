@@ -17,6 +17,7 @@ const RefChecker_1 = require("../utils/RefChecker");
 const User_1 = __importDefault(require("./User"));
 const School_1 = __importDefault(require("./School"));
 const Branch_1 = __importDefault(require("./Branch"));
+const mongoose_paginate_ts_1 = require("mongoose-paginate-ts");
 const FollowSchema = new mongoose_1.Schema({
     followerId: { type: mongoose_1.Schema.Types.ObjectId, required: true },
     followingId: { type: mongoose_1.Schema.Types.ObjectId, required: true }
@@ -33,6 +34,7 @@ FollowSchema.index({
 }, {
     unique: true
 });
+FollowSchema.plugin(mongoose_paginate_ts_1.mongoosePagination);
 const Follow = mongoose_1.model('Follow', FollowSchema);
 exports.default = Follow;
 //# sourceMappingURL=Follow.js.map

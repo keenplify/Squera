@@ -26,22 +26,19 @@ export const FlexFeed = {
     )
   } ,
 
-  Left : ({children}:Props) => {
+  Left : ({children, isHiding}:any) => {
     return (
-      <Flex wordBreak='break-word' w={{md: '15em', lg: '20em'}} display={{base:'none', lg:'initial'}}>
-        <Flex grow={1}/>
-        <Flex  w={{md: '15em', lg: '20em'}} position='fixed'>
-          {children}
-        </Flex>
+      <Flex wordBreak='break-word' flexBasis={{md: '15em', lg: '20em'}} display={{base:isHiding && 'none', lg:'initial'}}>
+        {children}
       </Flex>
     )
   },
 
-  Middle : ({children}:Props) => <Flex direction='column' w={{md: '33em', lg: '42em'}}  wordBreak='break-word'>
+  Middle : ({children}:Props) => <Flex direction='column' flexBasis={{md: '33em', lg: '42em'}}  wordBreak='break-word'>
     {children}
   </Flex>,
 
-  Right : ({children}:Props) => <Flex grow={{base:'initial', lg:1}} w={{base:'100%', md:'15em', lg: 'auto'}} wordBreak='break-word'>
+  Right : ({children}:Props) => <Flex grow={{base:'initial', lg:1}} flexBasis={{base:'100%', md:'15em', lg: 'auto'}} wordBreak='break-word'>
     {children}
   </Flex>
 }

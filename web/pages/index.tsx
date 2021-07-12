@@ -26,7 +26,7 @@ export default function Home({userResponse, feedList, feedAuthorsResponse}:HomeP
       <title>Home - Squera</title>
     </Head> 
     <UserProvider value={userResponse}>
-      <Header/>
+      {userResponse.token && <Header/>}
       <Flex grow={1}>
         {userResponse.token ? <UserFeedPage feedList={feedList} feedAuthorsResponse={feedAuthorsResponse}/>:<FrontPage/>}
       </Flex>

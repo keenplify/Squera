@@ -13,11 +13,10 @@ export const Feed = ({children, display}:FeedProps) => {
     <Flex 
       m='.5em'
       background='white' 
-      grow={1} 
       borderRadius='lg' 
       boxShadow='base' 
       display={display}
-      backgroundColor={colorMode === 'light' ? 'white' : 'blackAlpha.500'}
+      backgroundColor={colorMode === 'light' ? 'blackAlpha.100' : 'blackAlpha.300'}
     >
       {children}
     </Flex>

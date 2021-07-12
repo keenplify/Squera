@@ -1,4 +1,4 @@
-import { Alert } from "@chakra-ui/react";
+import { Alert, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 import { Fragment } from "react";
@@ -11,12 +11,15 @@ import { FlexFeed } from "../../components/FlexFeed";
 import { Feed } from "../../components/Feed";
 import ProjectStatusAlert from "../../components/ProjectStatusAlert"
 import { SchoolsFollowedList } from "../../components/SchoolsFollowedList";
+import { RegisterSchool } from "../../components/RegisterSchool";
 
 interface SchoolProps {
   userResponse: UserResponse
 }
 
 export default function Schools({userResponse}:SchoolProps) {
+  
+
   return (
     <Fragment>
       <Head>
@@ -27,12 +30,13 @@ export default function Schools({userResponse}:SchoolProps) {
         <FlexFeed.Container>
           <FlexFeed.Left>
             <SchoolsFollowedList />
+            <Flex p='1em'  direction='column'>
+              <RegisterSchool/>
+            </Flex>
           </FlexFeed.Left>
           <FlexFeed.Middle>
             <Feed>
-              <Alert>
-                <ProjectStatusAlert/>
-              </Alert>
+              <ProjectStatusAlert/>
             </Feed>
           </FlexFeed.Middle>
           <FlexFeed.Right>
@@ -55,6 +59,7 @@ export async function getServerSideProps(context:any) {
 
   const userResponse = await Authenticate(token);
 
+  
   return {
     props: {
       userResponse

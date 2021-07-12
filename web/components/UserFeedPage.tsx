@@ -28,7 +28,7 @@ export const UserFeedPage = ({feedList, feedAuthorsResponse}: UserFeedPageProps)
   return (
     <FlexFeed.Container>
 
-      <FlexFeed.Left>
+      <FlexFeed.Left isHiding>
         <UserFeedLeftStack />
       </FlexFeed.Left>
 

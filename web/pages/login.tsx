@@ -1,4 +1,4 @@
-import { Flex, Box, Heading, Input, Alert, AlertDescription, AlertIcon } from "@chakra-ui/react";
+import { Flex, Box, Heading, Input, Alert, AlertDescription, AlertIcon, useColorMode } from "@chakra-ui/react";
 import Head from 'next/head'
 import DefaultButton from "../components/DefaultButton";
 import { FiLogIn, FiUserPlus } from "react-icons/fi";
@@ -18,11 +18,13 @@ import axios from "axios";
 import { rootServer } from "../utils/server";
 import { Form, Formik, Field } from 'formik';
 import Cookies from "universal-cookie";
+import { DefaultInput } from "../components/DefaultInput";
 
 const Login = () => {
   const router = useRouter()
   const {isOpen, onOpen, onClose} = useDisclosure()
   const [error, setError] = useState()
+  const { colorMode } = useColorMode()
   useEffect(() => onOpen(), [onOpen]) //Open drawer on load
 
   const SubmitLoginForm = (values:any, {setSubmitting}:any) => {
@@ -50,9 +52,9 @@ const Login = () => {
         onSubmit={SubmitLoginForm}
       >
         {
-          ({isSubmitting}) => {
+          ({isSubmitting, handleChange, handleBlur}) => {
             return (
-            <Box as={Form} width='317px' background='white' borderRadius='md' padding='16px' boxShadow='2xl'>
+            <Box as={Form} width='317px' background={colorMode === 'light'? 'white': 'whiteAlpha.300'} borderRadius='md' padding='16px' boxShadow='2xl'>
               <Flex justify='center' mb='1rem'>
                 <Heading size={'md'}>Login</Heading>
               </Flex>
@@ -65,10 +67,10 @@ const Login = () => {
                 </Flex>
               }
               <Flex mb='.5rem'>
-                <Input as={Field} placeholder='Username / Email' h='48px' required name='username'/>
+                <DefaultInput onChange={handleChange} onBlur={handleBlur} placeholder='Username / Email' required name='username'/>
               </Flex>
               <Flex mb='.5rem'>
-                <Input as={Field} placeholder='Password' type='password' h='48px' required name='password'/>
+                <DefaultInput onChange={handleChange} onBlur={handleBlur} placeholder='Password' type='password' required name='password'/>
               </Flex>
               <Flex>
                 <DefaultButton icon={<FiLogIn/>} backgroundColor='#1877f2' color='white' type='submit' isLoading={isSubmitting} disabled={isSubmitting}>Login</DefaultButton>
