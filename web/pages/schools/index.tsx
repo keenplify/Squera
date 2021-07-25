@@ -11,7 +11,13 @@ import { FlexFeed } from "../../components/FlexFeed";
 import { Feed } from "../../components/Feed";
 import ProjectStatusAlert from "../../components/ProjectStatusAlert"
 import { SchoolsFollowedList } from "../../components/SchoolsFollowedList";
-import { RegisterSchool } from "../../components/RegisterSchool";
+import dynamic from 'next/dynamic'
+
+
+const RegisterSchool = dynamic(
+  () => import("../../components/RegisterSchool"),
+  { ssr: false }
+)
 
 interface SchoolProps {
   userResponse: UserResponse

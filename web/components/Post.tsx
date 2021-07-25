@@ -63,7 +63,10 @@ export const Post = ({post, author, handleDeleteSuccess}:PostProps) => {
             <Flex direction='column' ml={3} justify='center'>
               <Flex fontWeight='semibold'>{isAnon ? `Anonymous ${userResponse.userId === post.createdBy && '(You)'}` : user.userId}</Flex>
               <Flex color={colorMode === 'light' ? 'blackAlpha.700':'whiteAlpha.700'} fontSize='smaller'>
-                <b>{!isAnon && `@${user.username}`}</b> | 
+                <b>
+                  {!isAnon && `@${user.username}`}
+                </b>
+                {!isAnon && ' | '}
                 <time dateTime={post.createdAt}>{parsedDate}</time>
               </Flex>
             </Flex>

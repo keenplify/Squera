@@ -17,6 +17,9 @@ export const Feed = ({children, display}:FeedProps) => {
       boxShadow='base' 
       display={display}
       backgroundColor={colorMode === 'light' ? 'blackAlpha.100' : 'blackAlpha.300'}
+      _hover={{
+        backgroundColor:colorMode === 'light' ? 'blackAlpha.50' : 'blackAlpha.200'
+      }}
     >
       {children}
     </Flex>

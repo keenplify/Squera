@@ -1,4 +1,4 @@
-import { Flex, Heading, Spinner, Text } from "@chakra-ui/react"
+import { Flex, Heading, Spinner, Text, useColorMode } from "@chakra-ui/react"
 import axios from "axios"
 import { useEffect } from "react"
 import { useContext, useState } from "react"
@@ -14,6 +14,7 @@ export const SchoolsFollowedList = (props:Props) => {
   const userResponse:UserResponse = useContext(UserContext)
   const [ following, setFollowing ] = useState([])
   const [ loading, setLoading ] =useState(true)
+  const { colorMode } = useColorMode()
 
   useEffect(()=> {
     axios.get(rootServer+'/follows/following/'+userResponse.userId, {
@@ -22,7 +23,6 @@ export const SchoolsFollowedList = (props:Props) => {
       }
     })
     .then((res)=>{
-      console.log(res)
       setLoading(false)
     })
   }, [])
@@ -37,7 +37,9 @@ export const SchoolsFollowedList = (props:Props) => {
       <Flex>
         {
           (following.length==0) ? (
-            <Text color='GrayText' wordBreak='break-word'>You are following no one! Start following schools to get the latest news and files!</Text>
+            <Text color={colorMode === 'light' ? 'GrayText' : 'whiteAlpha.800'} wordBreak='break-word'>
+              You are following no one! Start following schools to get the latest news and files!
+            </Text>
           ):(
             'Listing'
           )
