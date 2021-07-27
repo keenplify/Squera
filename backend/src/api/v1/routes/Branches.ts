@@ -14,7 +14,8 @@ router.post("/add", BearerAuthenticate, (req, res) => {
   const newBranch = new Branch({
     schoolId: req.body?.schoolId,
     name: req.body?.name,
-    address: req.body?.address,
+    geoCityId: req.body?.geoCityId,
+    geoCountryCode: req.body?.geoCountryCode,
     coordinates: req.body?.coordinates,
     createdBy: user.id
   }) as BranchInterface

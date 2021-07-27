@@ -10,13 +10,14 @@ const STRINGS_1 = require("../../../utils/STRINGS");
 const Paginate_1 = __importDefault(require("../../../utils/Paginate"));
 const router = express_1.default.Router();
 router.post("/add", Authenticate_1.default, (req, res) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     const user = req.user;
     const newBranch = new Branch_1.default({
         schoolId: (_a = req.body) === null || _a === void 0 ? void 0 : _a.schoolId,
         name: (_b = req.body) === null || _b === void 0 ? void 0 : _b.name,
-        address: (_c = req.body) === null || _c === void 0 ? void 0 : _c.address,
-        coordinates: (_d = req.body) === null || _d === void 0 ? void 0 : _d.coordinates,
+        geoCityId: (_c = req.body) === null || _c === void 0 ? void 0 : _c.geoCityId,
+        geoCountryCode: (_d = req.body) === null || _d === void 0 ? void 0 : _d.geoCountryCode,
+        coordinates: (_e = req.body) === null || _e === void 0 ? void 0 : _e.coordinates,
         createdBy: user.id
     });
     newBranch.save()

@@ -7,8 +7,9 @@ const mongoose_1 = require("mongoose");
 const Mongoose_Audit_1 = __importDefault(require("../utils/Mongoose-Audit"));
 const BranchSchema = new mongoose_1.Schema({
     schoolId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "School" },
-    name: { type: String, required: true, unique: true, minlength: 3 },
-    address: { type: String },
+    name: { type: String, required: true, minlength: 3 },
+    geoCityId: { type: String },
+    geoCountryCode: { type: String },
     coordinates: { type: Array },
     isVerified: { type: Boolean, default: false }
 }, {

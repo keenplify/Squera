@@ -22,7 +22,7 @@ router.post("/add", Authenticate_1.default, (req, res) => {
         message: STRINGS_1.SUCCESSFUL,
         schoolId: school.id
     }))
-        .catch(err => res.send(err.message));
+        .catch(err => res.send(err));
 });
 router.get("/:id", (req, res) => {
     var _a;

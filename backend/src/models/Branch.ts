@@ -6,7 +6,8 @@ import { BranchInterface } from '../interfaces/Branch.interface';
 const BranchSchema = new Schema<BranchInterface>({
     schoolId: { type: Schema.Types.ObjectId, required: true, ref: "School" },
     name: { type: String, required: true, unique: true, minlength: 3 },
-    address: { type: String },
+    geoCityId: { type: String },
+    geoCountryCode: { type: String },
     coordinates: { type: Array },
     isVerified: { type: Boolean, default: false }
 }, {

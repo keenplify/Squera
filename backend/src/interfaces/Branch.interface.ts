@@ -10,4 +10,6 @@ export interface BranchInterface extends Document<any, any>, Audit {
       y: Float32Array
     };
     isVerified: boolean;
+    geoCityId: number;
+    geoCountryCode: string;
 }

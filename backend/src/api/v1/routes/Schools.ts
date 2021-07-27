@@ -23,7 +23,7 @@ router.post("/add", BearerAuthenticate, (req, res) => {
     message: SUCCESSFUL,
     schoolId: school.id
   }))
-  .catch(err => res.send(err.message))
+  .catch(err => res.send(err))
 })
 
 router.get("/:id", (req, res) => {
